@@ -1,22 +1,21 @@
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 const Task = require('../model/taskModel');
-// const User = require('../model/userModel');
 
-// Set up nodemailer transporter
+// Set up nodemailer transporter with generated app password
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'virajbogati11@gmai;.com', // Replace with your email
-        pass: 'Cvbfghrty567@##@'   // Use environment variables for security
+        user: 'bogatibiraj35@gmail.com',
+        pass: process.env.PASSWORD
     }
 });
 
 // Function to send email notification
-const sendEmailNotification = (task,) => {
+const sendEmailNotification = (task) => {
     const mailOptions = {
-        from: 'virajbogati11@gmai;.com',
-        to: "virajbogati78@gamail.com",
+        from: 'bogatibiraj35@gmail.com',
+        to: "virajbogati78@gmail.com",  // Replace with dynamic email if needed
         subject: `Task "${task.title}" is overdue!`,
         text: `The task "${task.title}" was due on ${task.dueDate}. Please complete it as soon as possible.`
     };
@@ -31,17 +30,17 @@ const sendEmailNotification = (task,) => {
 };
 
 // Cron job to check for overdue tasks every day at midnight
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('* * * * * *', async () => {
     console.log('Checking for overdue tasks...');
 
     // Get tasks that are overdue and not completed
     const overdueTasks = await Task.find({
         dueDate: { $lt: new Date() },
         status: { $ne: 'completed' }
-    }).populate('user'); // Populate the user info for sending notifications
+    });
 
     overdueTasks.forEach((task) => {
-        const userEmail = task.user.email;
+        const userEmail = "virajbogati11@gmail.com";  // Replace with dynamic email if needed
         sendEmailNotification(task, userEmail);
     });
 });
