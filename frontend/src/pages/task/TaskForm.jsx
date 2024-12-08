@@ -23,7 +23,7 @@ const TaskForm = () => {
         try {
             const res = await createtask(formData);
             if (res.status === 201) {
-                toast.success(res.data.message); // Show success toast
+                toast.success(res.data.message);
                 setTitle('');
                 setDescription('');
                 setDueDate('');
@@ -44,34 +44,62 @@ const TaskForm = () => {
     };
 
     return (
-        <div className="task-form-container">
-            <h2>Create New Task</h2>
-            <form onSubmit={handleSubmit} className="task-form">
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    className="task-input"
-                />
-                <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                    className="task-textarea"
-                />
-                <input
-                    type="datetime-local"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    required
-                    className="task-input"
-                />
-                {error && <p className="error-message">{error}</p>}
-                <button type="submit" className="task-submit-button">Create Task</button>
-            </form>
+        <div className="container-fluid full-page">
+            <div className="row h-100">
+                <div className="col-md-3 col-lg-3 d-flex justify-content-center align-items-center">
+                    <div className="card card-form border-0 shadow">
+                        <div className="card-header bg-white">
+                            <h1 className="fs-5 text-dark m-0 text-decoration-underline w-100 text-center">
+                                Create a New Task
+                            </h1>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <label>Task Title</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter task title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        required
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group mt-2">
+                                    <label>Description</label>
+                                    <textarea
+                                        placeholder="Enter task description"
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group mt-2">
+                                    <label>Due Date</label>
+                                    <input
+                                        type="datetime-local"
+                                        value={dueDate}
+                                        onChange={(e) => setDueDate(e.target.value)}
+                                        required
+                                        className="form-control"
+                                    />
+                                </div>
+                                {error && <p className="text-danger mt-2">{error}</p>}
+                            </form>
+                        </div>
+                        <div className="card-footer">
+                            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+                                Create Task
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-9">
+                    {/* Placeholder for task list or additional content */}
+                </div>
+            </div>
         </div>
     );
 };
