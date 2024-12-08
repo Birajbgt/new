@@ -9,7 +9,6 @@ const taskSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-taskSchema.index({ title: 1, status: 1 }); // Add index for search optimization
 
 const Task = mongoose.model('Task', taskSchema);
 

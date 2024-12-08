@@ -2,6 +2,7 @@ const Task = require('../model/taskModel');
 
 // Create a new task
 const createTask = async (req, res) => {
+    console.log(req.body);
     try {
         const { title, description, dueDate, status } = req.body;
         const task = new Task({ title, description, dueDate, status });
@@ -15,31 +16,17 @@ const createTask = async (req, res) => {
 // Get all tasks with pagination and search
 const getTasks = async (req, res) => {
     try {
-        const { page = 1, limit = 10, search = '', status } = req.query;
-        const query = {};
-
-        if (search) {
-            query.title = { $regex: search, $options: 'i' }; // Case-insensitive search
-        }
-        if (status) {
-            query.status = status;
-        }
-
-        const tasks = await Task.find(query)
-            .skip((+page - 1) * +limit)
-            .limit(+limit)
-            .sort({ dueDate: 1 }); // Sort by due date
-        const total = await Task.countDocuments(query);
-
-        res.status(200).json({
-            tasks,
-            total,
-            page: +page,
-            totalPages: Math.ceil(total / +limit),
-        });
+        const tasks = await Task.find({})
+        res.status(201).json({
+            "success": true,
+            "message": "task fetched Successfully",
+            "task": tasks
+        })
+        // console.log(res.task);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch tasks', details: error });
     }
+    
 };
 
 // Get a single task by ID
