@@ -8,8 +8,6 @@ const connectDatabase = require('./database/database');
 const dotenv = require('dotenv');
 // importing cors  to link with frontend (its a policy)
 const cors = require('cors');
-// importing express-fileupload
-const acceptFOrmData = require('express-fileupload')
 
 // creating an express application. 
 const app = express();
@@ -27,17 +25,10 @@ app.use(cors(corsOptions))
 //dotenv configuration
 dotenv.config()
 
-
-// config from data
-app.use(acceptFOrmData())
-// make static form data 
-app.use(express.static('./public'));
-
-
 //defining the port .
 const PORT = process.env.PORT;;
 
-
+require("./utils/cronJobs");
 //connecting to databas 
 connectDatabase()
 
@@ -50,9 +41,6 @@ app.get('/test', (req, res) => {
 //configuring routes
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/task', require('./routes/taskRoutes'))
-
-
-
 
 
 // starting the server. 
